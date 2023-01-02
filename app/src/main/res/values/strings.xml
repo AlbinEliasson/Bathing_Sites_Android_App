@@ -1,6 +1,7 @@
 <resources>
     <!-- Main Starting activity -->
     <string name="app_name">Bathing Sites</string>
+    <string name="floating_action_button_description">add bathing site</string>
 
     <!-- Custom bathing site component -->
     <string name="default_bathing_sites_title">0 bathing sites</string>
