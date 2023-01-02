@@ -4,7 +4,7 @@
     <string name="floating_action_button_description">add bathing site</string>
 
     <!-- Custom bathing site component -->
-    <string name="default_bathing_sites_title">0 bathing sites</string>
+    <string name="default_bathing_sites_title">%1$d bathing sites</string>
     <string name="bathing_site_image_description">Bathing site image</string>
     
     <!-- Main menu -->

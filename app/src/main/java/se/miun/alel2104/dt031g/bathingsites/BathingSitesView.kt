@@ -14,9 +14,11 @@ class BathingSitesView @JvmOverloads constructor(
 ) : ConstraintLayout(context, attrs, defStyle, defStyleRes) {
 
     private var view: View = View.inflate(context, R.layout.bathing_sites_view, this)
+    private var numberOfBathingSites = 0
 
     init {
         initialize(attrs)
+        initBathingButtonListener()
     }
 
     private fun initialize(attrs: AttributeSet?) {
@@ -27,11 +29,19 @@ class BathingSitesView @JvmOverloads constructor(
 
         typedArray.recycle()
 
-        setupTitleView(bathingSitesTitle)
+        setupTitleView()
     }
 
-    private fun setupTitleView(title: String) {
-        view.findViewById<TextView>(R.id.bathing_sites_title).text = title
+    private fun setupTitleView() {
+        val bathingSiteTitle = resources.getString(R.string.default_bathing_sites_title, numberOfBathingSites)
+        view.findViewById<TextView>(R.id.bathing_sites_title).text = bathingSiteTitle
+
     }
 
+    private fun initBathingButtonListener() {
+        view.setOnClickListener {
+            numberOfBathingSites += 1
+            setupTitleView()
+        }
+    }
 }
