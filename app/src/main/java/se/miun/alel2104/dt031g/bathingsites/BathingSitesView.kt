@@ -3,6 +3,7 @@ package se.miun.alel2104.dt031g.bathingsites
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 
 class BathingSitesView @JvmOverloads constructor(
@@ -25,6 +26,12 @@ class BathingSitesView @JvmOverloads constructor(
             R.styleable.BathingSitesView_bathing_sites_title).toString()
 
         typedArray.recycle()
+
+        setupTitleView(bathingSitesTitle)
+    }
+
+    private fun setupTitleView(title: String) {
+        view.findViewById<TextView>(R.id.bathing_sites_title).text = title
     }
 
 }
