@@ -6,10 +6,10 @@
     <!-- Custom bathing site component -->
     <string name="default_bathing_sites_title">%1$d bathing sites</string>
     <string name="bathing_site_image_description">Bathing site image</string>
-    
+
     <!-- Main menu -->
     <string name="main_menu_setting">Settings</string>
-    
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
