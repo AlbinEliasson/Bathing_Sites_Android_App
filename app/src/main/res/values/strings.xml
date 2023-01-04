@@ -11,6 +11,7 @@
     <string name="main_menu_setting">Settings</string>
 
     <!-- Add bathing site fragment -->
+    <string name="add_bathing_site">Add bathing place</string>
     <string name="edit_text_bathing_site_name">Name:</string>
     <string name="edit_text_bathing_site_description">Description:</string>
     <string name="edit_text_bathing_site_address">Address:</string>

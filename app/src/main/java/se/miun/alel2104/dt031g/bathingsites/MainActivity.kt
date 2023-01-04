@@ -1,5 +1,6 @@
 package se.miun.alel2104.dt031g.bathingsites
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -21,7 +22,7 @@ class MainActivity : AppCompatActivity() {
     private fun initAddBathingSiteButtonListener() {
         val addBathingSiteButton: View = findViewById(R.id.add_bathing_site_button)
         addBathingSiteButton.setOnClickListener {
-            println("Add bathing site")
+            startActivity(Intent(this, AddBathingSiteActivity::class.java))
         }
     }
 }

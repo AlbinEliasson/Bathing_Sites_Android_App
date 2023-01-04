@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".AddBathingSiteFragment">
+    android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars ="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/bathingSiteName"
@@ -18,8 +16,8 @@
             android:labelFor="@+id/bathingSiteInputName"
             android:text="@string/edit_text_bathing_site_name"
             android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBottom_toTopOf="@+id/bathingSiteInputName"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
             android:id="@+id/bathingSiteInputName"
@@ -29,9 +27,9 @@
             android:ems="10"
             android:inputType="textPersonName"
             android:minHeight="48dp"
+            app:layout_constraintBottom_toTopOf="@+id/guideline6"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/bathingSiteName" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/bathingSiteDescription"
@@ -49,21 +47,21 @@
             android:layout_height="wrap_content"
             android:autofillHints="description"
             android:ems="10"
-            android:inputType="textPersonName"
+            android:inputType="textMultiLine"
             android:minHeight="48dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/bathingSiteDescription" />
 
         <TextView
-            android:id="@+id/bathingSiteAdress"
+            android:id="@+id/bathingSiteAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:labelFor="@+id/bathingSiteInputAddress"
             android:text="@string/edit_text_bathing_site_address"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline7" />
+            app:layout_constraintTop_toBottomOf="@+id/bathingSiteInputDescription" />
 
         <EditText
             android:id="@+id/bathingSiteInputAddress"
@@ -75,7 +73,7 @@
             android:minHeight="48dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/bathingSiteAdress" />
+            app:layout_constraintTop_toBottomOf="@+id/bathingSiteAddress" />
 
         <TextView
             android:id="@+id/bathingSiteLatitude"
@@ -85,11 +83,11 @@
             android:text="@string/edit_text_bathing_site_latitude"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline8" />
+            app:layout_constraintTop_toBottomOf="@+id/bathingSiteInputAddress" />
 
         <EditText
             android:id="@+id/bathingSiteInputLatitude"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:autofillHints="latitude"
             android:ems="10"
@@ -107,11 +105,11 @@
             android:text="@string/edit_text_bathing_site_longitude"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="@+id/guideline5"
-            app:layout_constraintTop_toTopOf="@+id/guideline8" />
+            app:layout_constraintTop_toBottomOf="@+id/bathingSiteInputAddress" />
 
         <EditText
             android:id="@+id/bathingSiteInputLongitude"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:autofillHints="longitude"
             android:ems="10"
@@ -125,37 +123,32 @@
             android:id="@+id/bathingSiteGrade"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
             android:text="@string/edit_text_bathing_site_grade"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline9" />
-
-        <RatingBar
-            android:id="@+id/bathingSiteInputGrade"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/edit_text_bathing_site_grade_description"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/bathingSiteGrade" />
+            app:layout_constraintTop_toBottomOf="@+id/bathingSiteInputLatitude" />
 
         <TextView
             android:id="@+id/bathingSiteWaterTemp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:labelFor="@+id/bathingSiteInputWaterTemp"
             android:text="@string/edit_text_bathing_site_water_temperature"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline10" />
+            app:layout_constraintTop_toBottomOf="@+id/bathingSiteInputGrade" />
 
         <EditText
             android:id="@+id/bathingSiteInputWaterTemp"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:autofillHints="temperature"
             android:ems="10"
             android:inputType="numberDecimal"
             android:minHeight="48dp"
+            app:layout_constraintBottom_toTopOf="@+id/guideline12"
             app:layout_constraintEnd_toStartOf="@+id/guideline5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/bathingSiteWaterTemp" />
@@ -164,30 +157,25 @@
             android:id="@+id/bathingSiteDateTemp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:labelFor="@+id/bathingSiteInputDateTemp"
             android:text="@string/edit_text_bathing_site_water_temperature_date"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="@+id/guideline5"
-            app:layout_constraintTop_toTopOf="@+id/guideline10" />
+            app:layout_constraintTop_toBottomOf="@+id/bathingSiteInputGrade" />
 
         <EditText
             android:id="@+id/bathingSiteInputDateTemp"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:autofillHints="date"
             android:ems="10"
             android:inputType="date"
             android:minHeight="48dp"
+            app:layout_constraintBottom_toTopOf="@+id/guideline12"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline5"
             app:layout_constraintTop_toBottomOf="@+id/bathingSiteDateTemp" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.5" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline6"
@@ -197,11 +185,25 @@
             app:layout_constraintGuide_percent="0.16" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline7"
+            android:id="@+id/guideline9"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.32" />
+            app:layout_constraintGuide_percent="0.64" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline8"
@@ -211,21 +213,35 @@
             app:layout_constraintGuide_percent="0.48" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.64" />
-
-        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.8" />
+            app:layout_constraintGuide_percent="0.82" />
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.32" />
+
+        <RatingBar
+            android:id="@+id/bathingSiteInputGrade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/edit_text_bathing_site_grade_description"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bathingSiteGrade" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="1.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+</ScrollView>
 
-</FrameLayout>
