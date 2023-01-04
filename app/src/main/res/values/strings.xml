@@ -2,13 +2,13 @@
     <!-- Main Starting activity -->
     <string name="app_name">Bathing Sites</string>
     <string name="floating_action_button_description">add bathing site</string>
+    <!-- Main Starting activity settings -->
+    <string name="main_menu_setting">Settings</string>
 
     <!-- Custom bathing site component -->
     <string name="default_bathing_sites_title">%1$d bathing sites</string>
     <string name="bathing_site_image_description">Bathing site image</string>
 
-    <!-- Main menu -->
-    <string name="main_menu_setting">Settings</string>
 
     <!-- Add bathing site fragment -->
     <string name="add_bathing_site">Add bathing place</string>
@@ -21,5 +21,10 @@
     <string name="edit_text_bathing_site_grade_description">Rating of Bathing site</string>
     <string name="edit_text_bathing_site_water_temperature">Water temp:</string>
     <string name="edit_text_bathing_site_water_temperature_date">Date for temp:</string>
+
+    <!-- Add bathing site activity -->
+    <!-- Add bathing site activity settings -->
+    <string name="add_bathing_site_clear">Clear</string>
+    <string name="add_bathing_site_save">Save</string>
 
 </resources>
