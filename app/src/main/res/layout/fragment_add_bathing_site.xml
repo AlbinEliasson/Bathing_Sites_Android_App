@@ -1,14 +1,231 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AddBathingSiteFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:scrollbars ="vertical">
+
+        <TextView
+            android:id="@+id/bathingSiteName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:labelFor="@+id/bathingSiteInputName"
+            android:text="@string/edit_text_bathing_site_name"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/bathingSiteInputName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="name"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:minHeight="48dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bathingSiteName" />
+
+        <TextView
+            android:id="@+id/bathingSiteDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:labelFor="@+id/bathingSiteInputDescription"
+            android:text="@string/edit_text_bathing_site_description"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline6" />
+
+        <EditText
+            android:id="@+id/bathingSiteInputDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="description"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:minHeight="48dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bathingSiteDescription" />
+
+        <TextView
+            android:id="@+id/bathingSiteAdress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:labelFor="@+id/bathingSiteInputAddress"
+            android:text="@string/edit_text_bathing_site_address"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline7" />
+
+        <EditText
+            android:id="@+id/bathingSiteInputAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="address"
+            android:ems="10"
+            android:inputType="textPostalAddress"
+            android:minHeight="48dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bathingSiteAdress" />
+
+        <TextView
+            android:id="@+id/bathingSiteLatitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:labelFor="@+id/bathingSiteInputLatitude"
+            android:text="@string/edit_text_bathing_site_latitude"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline8" />
+
+        <EditText
+            android:id="@+id/bathingSiteInputLatitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autofillHints="latitude"
+            android:ems="10"
+            android:inputType="numberSigned"
+            android:minHeight="48dp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bathingSiteLatitude" />
+
+        <TextView
+            android:id="@+id/bathingSiteLongitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:labelFor="@+id/bathingSiteInputLongitude"
+            android:text="@string/edit_text_bathing_site_longitude"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="@+id/guideline5"
+            app:layout_constraintTop_toTopOf="@+id/guideline8" />
+
+        <EditText
+            android:id="@+id/bathingSiteInputLongitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autofillHints="longitude"
+            android:ems="10"
+            android:inputType="numberSigned"
+            android:minHeight="48dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline5"
+            app:layout_constraintTop_toBottomOf="@+id/bathingSiteLongitude" />
+
+        <TextView
+            android:id="@+id/bathingSiteGrade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/edit_text_bathing_site_grade"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline9" />
+
+        <RatingBar
+            android:id="@+id/bathingSiteInputGrade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/edit_text_bathing_site_grade_description"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bathingSiteGrade" />
+
+        <TextView
+            android:id="@+id/bathingSiteWaterTemp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:labelFor="@+id/bathingSiteInputWaterTemp"
+            android:text="@string/edit_text_bathing_site_water_temperature"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline10" />
+
+        <EditText
+            android:id="@+id/bathingSiteInputWaterTemp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autofillHints="temperature"
+            android:ems="10"
+            android:inputType="numberDecimal"
+            android:minHeight="48dp"
+            app:layout_constraintEnd_toStartOf="@+id/guideline5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bathingSiteWaterTemp" />
+
+        <TextView
+            android:id="@+id/bathingSiteDateTemp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:labelFor="@+id/bathingSiteInputDateTemp"
+            android:text="@string/edit_text_bathing_site_water_temperature_date"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="@+id/guideline5"
+            app:layout_constraintTop_toTopOf="@+id/guideline10" />
+
+        <EditText
+            android:id="@+id/bathingSiteInputDateTemp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autofillHints="date"
+            android:ems="10"
+            android:inputType="date"
+            android:minHeight="48dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline5"
+            app:layout_constraintTop_toBottomOf="@+id/bathingSiteDateTemp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.16" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.32" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.48" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.64" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.8" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </FrameLayout>

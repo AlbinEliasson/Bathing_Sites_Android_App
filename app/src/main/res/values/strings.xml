@@ -10,6 +10,15 @@
     <!-- Main menu -->
     <string name="main_menu_setting">Settings</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- Add bathing site fragment -->
+    <string name="edit_text_bathing_site_name">Name:</string>
+    <string name="edit_text_bathing_site_description">Description:</string>
+    <string name="edit_text_bathing_site_address">Address:</string>
+    <string name="edit_text_bathing_site_latitude">Latitude:</string>
+    <string name="edit_text_bathing_site_longitude">Longitude:</string>
+    <string name="edit_text_bathing_site_grade">Grade:</string>
+    <string name="edit_text_bathing_site_grade_description">Rating of Bathing site</string>
+    <string name="edit_text_bathing_site_water_temperature">Water temp:</string>
+    <string name="edit_text_bathing_site_water_temperature_date">Date for temp:</string>
+
 </resources>
