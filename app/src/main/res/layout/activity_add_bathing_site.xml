@@ -6,4 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".AddBathingSiteActivity">
 
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_add_bathing_site"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:name="se.miun.alel2104.dt031g.bathingsites.AddBathingSiteFragment"
+        tools:layout="@layout/fragment_add_bathing_site"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
