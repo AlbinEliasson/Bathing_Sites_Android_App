@@ -9,9 +9,7 @@
     <string name="default_bathing_sites_title">%1$d bathing sites</string>
     <string name="bathing_site_image_description">Bathing site image</string>
 
-
     <!-- Add bathing site fragment -->
-    <string name="add_bathing_site">Add bathing place</string>
     <string name="edit_text_bathing_site_name">Name:</string>
     <string name="edit_text_bathing_site_description">Description:</string>
     <string name="edit_text_bathing_site_address">Address:</string>
@@ -23,6 +21,13 @@
     <string name="edit_text_bathing_site_water_temperature_date">Date for temp:</string>
 
     <!-- Add bathing site activity -->
+    <string name="add_bathing_site">Add bathing place</string>
+    <string name="bathing_site_name_error">Name is required</string>
+    <string name="bathing_site_location_error">Address or latitude/longitude is required</string>
+    <string name="new_line">\n</string>
+    <string name="space">&#160;</string>
+    <string name="dialog_title">Saved bathing site:</string>
+    <string name="dialog_buttonText">OK</string>
     <!-- Add bathing site activity settings -->
     <string name="add_bathing_site_clear">Clear</string>
     <string name="add_bathing_site_save">Save</string>
