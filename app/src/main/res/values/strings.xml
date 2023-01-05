@@ -11,14 +11,21 @@
 
     <!-- Add bathing site fragment -->
     <string name="edit_text_bathing_site_name">Name:</string>
+    <string name="edit_text_bathing_site_name_hint">Enter name of bathing site</string>
     <string name="edit_text_bathing_site_description">Description:</string>
+    <string name="edit_text_bathing_site_description_hint">Enter description of bathing site</string>
     <string name="edit_text_bathing_site_address">Address:</string>
+    <string name="edit_text_bathing_site_address_hint">Enter address of bathing site</string>
     <string name="edit_text_bathing_site_latitude">Latitude:</string>
+    <string name="edit_text_bathing_site_latitude_hint">Enter latitude of site</string>
     <string name="edit_text_bathing_site_longitude">Longitude:</string>
+    <string name="edit_text_bathing_site_longitude_hint">Enter longitude of site</string>
     <string name="edit_text_bathing_site_grade">Grade:</string>
     <string name="edit_text_bathing_site_grade_description">Rating of Bathing site</string>
     <string name="edit_text_bathing_site_water_temperature">Water temp:</string>
+    <string name="edit_text_bathing_site_water_temperature_hint">Enter temp of water</string>
     <string name="edit_text_bathing_site_water_temperature_date">Date for temp:</string>
+    <string name="edit_text_bathing_site_water_temperature_date_hint">Enter date for temp</string>
 
     <!-- Add bathing site activity -->
     <string name="add_bathing_site">Add bathing place</string>

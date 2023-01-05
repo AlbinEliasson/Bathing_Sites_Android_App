@@ -73,9 +73,6 @@ class AddBathingSiteActivity : AppCompatActivity() {
                 clearFormInputs(listOf(bathingSiteName, bathingSiteDescription,
                     bathingSiteAddress, bathingSiteLatitude, bathingSiteLongitude,
                     bathingSiteWaterTmp))
-
-                // Reset the water temp date to current date
-                initCurrentDateInForm()
             }
         }
         return super.onOptionsItemSelected(item)
@@ -87,6 +84,8 @@ class AddBathingSiteActivity : AppCompatActivity() {
                 it.text.clear()
             }
         }
+        // Reset the water temp date to current date
+        initCurrentDateInForm()
     }
 
     private fun resetErrorMessages(formList: List<EditText>) {
