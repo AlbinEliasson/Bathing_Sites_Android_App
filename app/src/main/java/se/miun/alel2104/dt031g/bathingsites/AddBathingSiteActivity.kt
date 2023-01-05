@@ -10,22 +10,38 @@ import androidx.appcompat.app.AlertDialog
 import java.text.SimpleDateFormat
 import java.util.*
 
+/**
+ * Represents the activity for adding new bathing sites.
+ * @author Albin Eliasson
+ */
 class AddBathingSiteActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_bathing_site)
     }
 
+    /**
+     * Initializes the logic after onCreate.
+     */
     override fun onStart() {
         super.onStart()
         initCurrentDateInForm()
     }
 
+    /**
+     * Initializes the clear and add button menu.
+     * @param menu the menu to be inflated.
+     */
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.add_bathing_site_menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
+    /**
+     * Checks if the clear/save button is pressed and clears all the inputs from the add
+     * bathing site inputs or saves the inputs if all mandatory information is entered.
+     * @param item the menu items, save or clear buttons.
+     */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val bathingSiteName = findViewById<EditText>(R.id.bathingSiteInputName)
         val bathingSiteDescription = findViewById<EditText>(R.id.bathingSiteInputDescription)
@@ -78,6 +94,10 @@ class AddBathingSiteActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    /**
+     * Loops the edit text inputs and clears the input if they contain information.
+     * @param formList the list of EditText.
+     */
     private fun clearFormInputs(formList: List<EditText>) {
         formList.forEach {
             if (it.length() != 0) {
@@ -88,12 +108,19 @@ class AddBathingSiteActivity : AppCompatActivity() {
         initCurrentDateInForm()
     }
 
+    /**
+     * Loops the edit text inputs and clear the error messages.
+     * @param formList the list of EditText.
+     */
     private fun resetErrorMessages(formList: List<EditText>) {
         formList.forEach {
             it.error = null
         }
     }
 
+    /**
+     * Initializes the current date to the water temp date input.
+     */
     private fun initCurrentDateInForm() {
         val bathingSiteWaterTmpDate = findViewById<EditText>(R.id.bathingSiteInputDateTemp)
         val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
@@ -102,6 +129,17 @@ class AddBathingSiteActivity : AppCompatActivity() {
         bathingSiteWaterTmpDate.setText(formattedDate)
     }
 
+    /**
+     * Creates an alert dialog displaying the information entered from the add bathing site inputs.
+     * @param name the EditText for the name of the bathing site.
+     * @param description the EditText for the description of the bathing site.
+     * @param address the EditText for the address of the bathing site.
+     * @param latitude the EditText for the latitude of the bathing site.
+     * @param longitude the EditText for the longitude of the bathing site.
+     * @param grade the RatingBar for the grade of the bathing site.
+     * @param waterTmp the EditText for the water temperature of the bathing site.
+     * @param date the EditText for the date of the water temperature of the bathing site.
+     */
     private fun createAlertDialog(name: EditText, description: EditText, address: EditText,
                                   latitude: EditText, longitude: EditText, grade: RatingBar,
                                   waterTmp: EditText, date: EditText) {

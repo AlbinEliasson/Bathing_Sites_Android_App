@@ -10,29 +10,33 @@
     <string name="bathing_site_image_description">Bathing site image</string>
 
     <!-- Add bathing site fragment -->
+    <!-- Label names -->
     <string name="edit_text_bathing_site_name">Name:</string>
-    <string name="edit_text_bathing_site_name_hint">Enter name of bathing site</string>
     <string name="edit_text_bathing_site_description">Description:</string>
-    <string name="edit_text_bathing_site_description_hint">Enter description of bathing site</string>
     <string name="edit_text_bathing_site_address">Address:</string>
-    <string name="edit_text_bathing_site_address_hint">Enter address of bathing site</string>
     <string name="edit_text_bathing_site_latitude">Latitude:</string>
-    <string name="edit_text_bathing_site_latitude_hint">Enter latitude of site</string>
     <string name="edit_text_bathing_site_longitude">Longitude:</string>
-    <string name="edit_text_bathing_site_longitude_hint">Enter longitude of site</string>
     <string name="edit_text_bathing_site_grade">Grade:</string>
-    <string name="edit_text_bathing_site_grade_description">Rating of Bathing site</string>
     <string name="edit_text_bathing_site_water_temperature">Water temp:</string>
-    <string name="edit_text_bathing_site_water_temperature_hint">Enter temp of water</string>
     <string name="edit_text_bathing_site_water_temperature_date">Date for temp:</string>
+    <!-- Edit text hints/descriptions -->
+    <string name="edit_text_bathing_site_name_hint">Enter name of bathing site</string>
+    <string name="edit_text_bathing_site_description_hint">Enter description of bathing site</string>
+    <string name="edit_text_bathing_site_address_hint">Enter address of bathing site</string>
+    <string name="edit_text_bathing_site_latitude_hint">Enter latitude of site</string>
+    <string name="edit_text_bathing_site_longitude_hint">Enter longitude of site</string>
+    <string name="edit_text_bathing_site_grade_description">Rating of Bathing site</string>
+    <string name="edit_text_bathing_site_water_temperature_hint">Enter temp of water</string>
     <string name="edit_text_bathing_site_water_temperature_date_hint">Enter date for temp</string>
 
     <!-- Add bathing site activity -->
     <string name="add_bathing_site">Add bathing place</string>
-    <string name="bathing_site_name_error">Name is required</string>
-    <string name="bathing_site_location_error">Address or latitude/longitude is required</string>
     <string name="new_line">\n</string>
     <string name="space">&#160;</string>
+    <!-- Error messages -->
+    <string name="bathing_site_name_error">Name is required</string>
+    <string name="bathing_site_location_error">Address or latitude/longitude is required</string>
+    <!-- Save dialog -->
     <string name="dialog_title">Saved bathing site:</string>
     <string name="dialog_buttonText">OK</string>
     <!-- Add bathing site activity settings -->
