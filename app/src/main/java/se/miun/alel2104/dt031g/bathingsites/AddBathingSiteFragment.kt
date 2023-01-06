@@ -1,5 +1,6 @@
 package se.miun.alel2104.dt031g.bathingsites
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.EditText
@@ -112,6 +113,11 @@ class AddBathingSiteFragment : Fragment() {
             R.id.add_bathing_site_weather_option -> {
                 ShowWeatherDialogFragment().show(childFragmentManager,
                     ShowWeatherDialogFragment.TAG)
+            }
+
+            R.id.add_bathing_site_settings_option -> {
+                val intent = Intent(activity, SettingsActivity::class.java)
+                startActivity(intent)
             }
         }
         return super.onOptionsItemSelected(item)
