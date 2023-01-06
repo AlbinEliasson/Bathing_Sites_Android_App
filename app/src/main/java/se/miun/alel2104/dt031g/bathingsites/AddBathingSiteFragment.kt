@@ -108,6 +108,11 @@ class AddBathingSiteFragment : Fragment() {
                     bathingSiteAddress, bathingSiteLatitude, bathingSiteLongitude,
                     bathingSiteWaterTmp))
             }
+
+            R.id.add_bathing_site_weather_option -> {
+                ShowWeatherDialogFragment().show(childFragmentManager,
+                    ShowWeatherDialogFragment.TAG)
+            }
         }
         return super.onOptionsItemSelected(item)
     }
