@@ -53,5 +53,9 @@
     <!-- Sync Preferences -->
     <string name="store_weather_link_key">WeatherLink</string>
     <string name="store_weather_link">https://dt031g.programvaruteknik.nu/bathingsites/weather.php</string>
+    <string name="store_weather_image_link">https://openweathermap.org/img/w/%1$s.png</string>
+
+    <!-- Show weather dialog fragment -->
+    <string name="weather_info_dialog_title">Current weather</string>
 
 </resources>
