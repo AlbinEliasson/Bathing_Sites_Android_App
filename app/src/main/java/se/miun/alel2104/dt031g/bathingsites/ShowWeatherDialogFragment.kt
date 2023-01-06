@@ -10,7 +10,7 @@ class ShowWeatherDialogFragment : DialogFragment() {
     // https://developer.android.com/guide/fragments/dialogs
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
         AlertDialog.Builder(requireContext())
-            .setMessage("The weather is ok i guess")
+            .setMessage(requireArguments().getString(AddBathingSiteFragment.WEATHER_INFO_KEY))
             .setPositiveButton(getString(R.string.dialog_buttonText)) { _,_ -> }
             .create()
 

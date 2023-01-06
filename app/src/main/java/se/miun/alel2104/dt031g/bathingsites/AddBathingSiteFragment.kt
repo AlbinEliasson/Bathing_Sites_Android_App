@@ -1,12 +1,22 @@
 package se.miun.alel2104.dt031g.bathingsites
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.StrictMode
 import android.view.*
 import android.widget.EditText
+import android.widget.ProgressBar
 import android.widget.RatingBar
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import androidx.preference.PreferenceManager
+import kotlinx.coroutines.*
+import org.json.JSONObject
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -22,6 +32,12 @@ private const val ARG_PARAM2 = "param2"
 class AddBathingSiteFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
+    private var weatherData: JSONObject? = null
+    private val job = SupervisorJob()
+    private val applicationScope = CoroutineScope(Dispatchers.IO + job)
+    private var weatherInfoToDisplay = ""
+    private var finishFetchingWeatherData = true
+    private var progressBar: ProgressBar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +62,7 @@ class AddBathingSiteFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         initCurrentDateInForm()
+        progressBar = view?.findViewById(R.id.download_progress_Bar)
     }
 
     /**
@@ -111,8 +128,17 @@ class AddBathingSiteFragment : Fragment() {
             }
 
             R.id.add_bathing_site_weather_option -> {
-                ShowWeatherDialogFragment().show(childFragmentManager,
-                    ShowWeatherDialogFragment.TAG)
+                getWeatherInfo()
+
+                while (!finishFetchingWeatherData) {
+                    showDownloadProgressBar()
+                }
+                val weatherDialogFragment: DialogFragment = ShowWeatherDialogFragment()
+                val args = Bundle()
+
+                args.putString(WEATHER_INFO_KEY, weatherInfoToDisplay)
+                weatherDialogFragment.arguments = args
+                weatherDialogFragment.show(childFragmentManager, "TAG")
             }
 
             R.id.add_bathing_site_settings_option -> {
@@ -121,6 +147,77 @@ class AddBathingSiteFragment : Fragment() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    //https://stackoverflow.com/questions/62260002/send-get-request-in-kotlin-android
+    private fun getWeatherInfo() {
+        finishFetchingWeatherData = false
+        val preferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(
+            context)
+        val weatherLink = preferences.getString(
+            SettingsActivity.SettingsFragment.WEATHER_LINK_KEY, getString(
+                R.string.store_weather_link))
+        var allWeatherInfo = ""
+
+        applicationScope.launch {
+            try { //disable the strict mode otherwise perform this operation on netWork Thread
+                val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
+                StrictMode.setThreadPolicy(policy)
+
+                // GET Request
+                val url = URL("https://dt031g.programvaruteknik.nu/bathingsites/weather.php?q=Stockholm")
+                val conn = withContext(Dispatchers.IO) {
+                    url.openConnection()
+                }
+                conn.doOutput = true
+                // Get the response
+                val rd = BufferedReader(InputStreamReader(withContext(Dispatchers.IO) {
+                    conn.inputStream
+                }))
+                var line: String
+
+                while (withContext(Dispatchers.IO) {
+                        rd.readLine()
+                    }.also { line = it } != null) {
+                    // Process line...
+                    allWeatherInfo += "$allWeatherInfo$line"
+                }
+                withContext(Dispatchers.IO) {
+                    rd.close()
+                }
+
+            } catch (e: Exception) {
+                println("Error $e")
+
+            } finally {
+                weatherData = JSONObject(allWeatherInfo)
+
+                weatherData?.let { parseWeatherInfo(it) }
+            }
+        }
+    }
+
+    private fun parseWeatherInfo(weatherData: JSONObject) {
+        var currentWeatherDesc = ""
+        val mainWeatherInfo = weatherData.getJSONObject("main")
+        val currentWeatherTmp = mainWeatherInfo.getString("temp")
+
+        val weatherArray = weatherData.getJSONArray("weather")
+        for (i in 0 until weatherArray.length()) {
+            currentWeatherDesc = weatherArray.getJSONObject(i).getString("description")
+        }
+        weatherInfoToDisplay = currentWeatherDesc + getString(R.string.new_line) + currentWeatherTmp
+
+        finishFetchingWeatherData = true
+    }
+
+    private fun showDownloadProgressBar() {
+        if (!finishFetchingWeatherData) {
+            progressBar!!.visibility = View.VISIBLE
+
+        } else {
+            progressBar!!.visibility = View.INVISIBLE
+        }
     }
 
     /**
@@ -203,6 +300,7 @@ class AddBathingSiteFragment : Fragment() {
     }
 
     companion object {
+        const val WEATHER_INFO_KEY = "infoKey"
         /**
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
