@@ -13,4 +13,13 @@
         android:title="@string/add_bathing_site_save"
         android:icon ="@drawable/ic_baseline_save_24"
         app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/add_bathing_site_weather_option"
+        android:title="@string/add_bathing_site_show_weather" />
+
+    <item
+        android:id="@+id/add_bathing_site_settings_option"
+        android:title="@string/add_bathing_site_settings" />
+
 </menu>

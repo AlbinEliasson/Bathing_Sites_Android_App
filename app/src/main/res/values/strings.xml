@@ -28,6 +28,11 @@
     <string name="edit_text_bathing_site_grade_description">Rating of Bathing site</string>
     <string name="edit_text_bathing_site_water_temperature_hint">Enter temp of water</string>
     <string name="edit_text_bathing_site_water_temperature_date_hint">Enter date for temp</string>
+    <!-- Add bathing site fragment settings -->
+    <string name="add_bathing_site_clear">Clear</string>
+    <string name="add_bathing_site_save">Save</string>
+    <string name="add_bathing_site_show_weather">Show Weather</string>
+    <string name="add_bathing_site_settings">Settings</string>
 
     <!-- Add bathing site activity -->
     <string name="add_bathing_site">Add bathing place</string>
@@ -39,8 +44,5 @@
     <!-- Save dialog -->
     <string name="dialog_title">Saved bathing site:</string>
     <string name="dialog_buttonText">OK</string>
-    <!-- Add bathing site activity settings -->
-    <string name="add_bathing_site_clear">Clear</string>
-    <string name="add_bathing_site_save">Save</string>
 
 </resources>
