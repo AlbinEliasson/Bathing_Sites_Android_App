@@ -10,6 +10,7 @@ import android.view.*
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.RatingBar
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
@@ -131,7 +132,8 @@ class AddBathingSiteFragment : Fragment() {
             }
 
             R.id.add_bathing_site_weather_option -> {
-                getWeatherInfo()
+                getWeatherInfo(createWeatherLink(
+                    bathingSiteAddress, bathingSiteLatitude, bathingSiteLongitude))
             }
 
             R.id.add_bathing_site_settings_option -> {
@@ -152,52 +154,114 @@ class AddBathingSiteFragment : Fragment() {
         weatherDialogFragment.show(childFragmentManager, "TAG")
     }
 
-    //https://stackoverflow.com/questions/62260002/send-get-request-in-kotlin-android
-    private fun getWeatherInfo() {
-        showDownloadProgressBar(true)
-
+    private fun createWeatherLink(
+        address: EditText?, latitude: EditText?, longitude: EditText?): String {
+        var finalWeatherLink = ""
+        val weatherLinkAddressExtra = "?q="
+        val weatherLinkLatitudeExtra = "?lat="
+        val weatherLinkLongitudeExtra = "&lon="
         val preferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(
             context)
-        val weatherLink = preferences.getString(
+        val settingWeatherLink = preferences.getString(
             SettingsActivity.SettingsFragment.WEATHER_LINK_KEY, getString(
                 R.string.store_weather_link))
+
+        if (latitude!!.text.isNotEmpty() && longitude!!.text.isNotEmpty()) {
+            finalWeatherLink = settingWeatherLink + weatherLinkLatitudeExtra +
+                        latitude.text + weatherLinkLongitudeExtra + longitude.text
+
+        } else if (address!!.text.isNotEmpty()) {
+            val addressSplit = address.text?.split(" ")
+
+            if (addressSplit!!.size == 1) {
+                finalWeatherLink = if (removeReplaceRegex(addressSplit[0]).isNotEmpty()) {
+                    settingWeatherLink + weatherLinkAddressExtra +
+                            removeReplaceRegex(addressSplit[0])
+                } else {
+                    ""
+                }
+
+            } else if (addressSplit.size == 2) {
+                finalWeatherLink = if (removeReplaceRegex(addressSplit[1]).isNotEmpty()) {
+                    settingWeatherLink + weatherLinkAddressExtra +
+                            removeReplaceRegex(addressSplit[1])
+                } else {
+                    ""
+                }
+            }
+
+        } else {
+            finalWeatherLink = ""
+        }
+
+        println(finalWeatherLink)
+        return finalWeatherLink
+    }
+
+    private fun removeReplaceRegex(link: String): String {
+        var finalLink = link
+        val regexCapitalizeA = Regex("[ÁÀÂÃÄÅ]")
+        val regexLowerCaseA = Regex("[áàâäãå]")
+        val regexCapitalizeO = Regex("[ÓÒÔÖÕØ]")
+        val regexLowerCaseO = Regex("[óòôöõø]")
+        val regexRemoveNonAlphaChar = Regex("[^A-Z a-z]")
+
+        finalLink = regexCapitalizeA.replace(finalLink, "A")
+        finalLink = regexLowerCaseA.replace(finalLink, "a")
+        finalLink = regexCapitalizeO.replace(finalLink, "O")
+        finalLink = regexLowerCaseO.replace(finalLink, "o")
+        finalLink = regexRemoveNonAlphaChar.replace(finalLink, "")
+
+        return finalLink
+    }
+
+    //https://stackoverflow.com/questions/62260002/send-get-request-in-kotlin-android
+    private fun getWeatherInfo(weatherLink: String) {
         var allWeatherInfo = ""
+        if (weatherLink.isEmpty()) {
+            Toast.makeText(context, getString(R.string.cant_show_weather), Toast.LENGTH_LONG).show()
 
-        applicationScope.launch {
-            try { //disable the strict mode otherwise perform this operation on netWork Thread
-                val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
-                StrictMode.setThreadPolicy(policy)
+        } else {
+            showDownloadProgressBar(true)
 
-                // GET Request
-                val url = URL("https://dt031g.programvaruteknik.nu/bathingsites/weather.php?q=Stockholm")
-                val connection = withContext(Dispatchers.IO) {
-                    url.openConnection()
+            applicationScope.launch {
+                try { //disable the strict mode otherwise perform this operation on netWork Thread
+                    val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
+                    StrictMode.setThreadPolicy(policy)
+
+                    // GET Request
+                    val url =
+                        URL(weatherLink)
+                    val connection = withContext(Dispatchers.IO) {
+                        url.openConnection()
+                    }
+                    connection.doOutput = true
+                    // Get the response
+                    val inputStreamReader = BufferedReader(
+                        InputStreamReader(withContext(Dispatchers.IO) {
+                            connection.inputStream
+                        })
+                    )
+                    var line: String
+
+                    while (withContext(Dispatchers.IO) {
+                            inputStreamReader.readLine()
+                        }.also { line = it } != null) {
+                        // Process line...
+                        allWeatherInfo += "$allWeatherInfo$line"
+                    }
+                    withContext(Dispatchers.IO) {
+                        inputStreamReader.close()
+                    }
+
+                } catch (e: Exception) {
+                    println("Error $e")
+
+                } finally {
+                    weatherData = JSONObject(allWeatherInfo)
+
+                    weatherData?.let { parseWeatherInfo(it) }
                 }
-                connection.doOutput = true
-                // Get the response
-                val inputStreamReader = BufferedReader(
-                    InputStreamReader(withContext(Dispatchers.IO) {
-                    connection.inputStream
-                }))
-                var line: String
-
-                while (withContext(Dispatchers.IO) {
-                        inputStreamReader.readLine()
-                    }.also { line = it } != null) {
-                    // Process line...
-                    allWeatherInfo += "$allWeatherInfo$line"
-                }
-                withContext(Dispatchers.IO) {
-                    inputStreamReader.close()
-                }
-
-            } catch (e: Exception) {
-                println("Error $e")
-
-            } finally {
-                weatherData = JSONObject(allWeatherInfo)
-
-                weatherData?.let { parseWeatherInfo(it) }
             }
         }
     }
@@ -205,15 +269,11 @@ class AddBathingSiteFragment : Fragment() {
     //https://www.tabnine.com/code/java/methods/android.graphics.drawable.Drawable/createFromStream
     private fun getDrawable(imageUrl: String): Bitmap? {
         return try {
-//            val inputStream: InputStream = requireContext().assets.open(source)
-//            val d = Drawable.createFromStream(inputStream, null)
-//            d.setBounds(0, 0, d.intrinsicWidth, d.intrinsicHeight)
             val url = URL(imageUrl)
             val image = BitmapFactory.decodeStream(url.openConnection().getInputStream())
 
             image
         } catch (e: IOException) {
-            // prevent a crash if the resource still can't be found
             println(e)
             null
         }
@@ -222,19 +282,32 @@ class AddBathingSiteFragment : Fragment() {
     private fun parseWeatherInfo(weatherData: JSONObject) {
         var currentWeatherDesc = ""
         var weatherIcon = ""
-        val mainWeatherInfo = weatherData.getJSONObject("main")
-        val currentWeatherTmp = mainWeatherInfo.getString("temp")
 
-        val weatherArray = weatherData.getJSONArray("weather")
-        for (i in 0 until weatherArray.length()) {
-            currentWeatherDesc = weatherArray.getJSONObject(i).getString("description")
-            weatherIcon = weatherArray.getJSONObject(i).getString("icon")
+        if (weatherData.getString("cod") == "404") {
+            showDownloadProgressBar(false)
+
+            requireActivity().runOnUiThread {
+                Toast.makeText(context, getString(
+                    R.string.cant_show_weather), Toast.LENGTH_LONG).show()
+            }
+
+        } else {
+            val mainWeatherInfo = weatherData.getJSONObject("main")
+            val currentWeatherTmp = mainWeatherInfo.getString("temp") +
+                    getString(R.string.degree_sign)
+
+            val weatherArray = weatherData.getJSONArray("weather")
+            for (i in 0 until weatherArray.length()) {
+                currentWeatherDesc = weatherArray.getJSONObject(i).getString("description")
+                weatherIcon = weatherArray.getJSONObject(i).getString("icon")
+            }
+            weatherInfoToDisplay =
+                currentWeatherDesc + getString(R.string.new_line) + currentWeatherTmp
+            weatherImage = getDrawable(getString(R.string.store_weather_image_link, weatherIcon))
+
+            showDownloadProgressBar(false)
+            showFragmentDialog()
         }
-        weatherInfoToDisplay = currentWeatherDesc + getString(R.string.new_line) + currentWeatherTmp
-        weatherImage = getDrawable(getString(R.string.store_weather_image_link, weatherIcon))
-
-        showDownloadProgressBar(false)
-        showFragmentDialog()
     }
 
     private fun showDownloadProgressBar(show: Boolean) {
