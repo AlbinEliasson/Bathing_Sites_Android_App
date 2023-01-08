@@ -151,7 +151,7 @@ class AddBathingSiteFragment : Fragment() {
         args.putString(WEATHER_INFO_KEY, weatherInfoToDisplay)
         args.putParcelable(WEATHER_ICON_KEY, weatherImage)
         weatherDialogFragment.arguments = args
-        weatherDialogFragment.show(childFragmentManager, "TAG")
+        weatherDialogFragment.show(childFragmentManager, weatherDialogFragment.tag)
     }
 
     private fun createWeatherLink(
@@ -287,8 +287,10 @@ class AddBathingSiteFragment : Fragment() {
             showDownloadProgressBar(false)
 
             requireActivity().runOnUiThread {
-                Toast.makeText(context, getString(
-                    R.string.cant_show_weather), Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    context, getString(
+                    R.string.cant_show_weather),
+                    Toast.LENGTH_LONG).show()
             }
 
         } else {

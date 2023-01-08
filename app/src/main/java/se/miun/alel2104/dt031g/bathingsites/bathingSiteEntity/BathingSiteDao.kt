@@ -1,4 +1,4 @@
-package se.miun.alel2104.dt031g.bathingsites
+package se.miun.alel2104.dt031g.bathingsites.bathingSiteEntity
 
 import androidx.room.Dao
 import androidx.room.Insert

@@ -61,4 +61,7 @@
     <!-- Show weather dialog fragment -->
     <string name="weather_info_dialog_title">Current weather</string>
 
+    <!-- Bathing site database -->
+    <string name="name_of_the_database_file">bathing_site_database</string>
+
 </resources>
