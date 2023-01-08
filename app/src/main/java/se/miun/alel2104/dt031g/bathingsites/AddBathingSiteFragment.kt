@@ -1,5 +1,6 @@
 package se.miun.alel2104.dt031g.bathingsites
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Bitmap
@@ -17,6 +18,7 @@ import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import kotlinx.coroutines.*
 import org.json.JSONObject
+import se.miun.alel2104.dt031g.bathingsites.bathingSiteEntity.BathingSite
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
@@ -108,13 +110,13 @@ class AddBathingSiteFragment : Fragment() {
                         resetErrorMessages(listOf(bathingSiteAddress, bathingSiteLatitude,
                             bathingSiteLongitude))
 
-                        createAlertDialog(bathingSiteName, bathingSiteDescription,
+                        saveToSiteToDatabase(bathingSiteName, bathingSiteDescription,
                             bathingSiteAddress, bathingSiteLatitude, bathingSiteLongitude,
                             bathingSiteGrade, bathingSiteWaterTmp, bathingSiteWaterTmpDate)
                     }
 
                 } else {
-                    createAlertDialog(bathingSiteName, bathingSiteDescription,
+                    saveToSiteToDatabase(bathingSiteName, bathingSiteDescription,
                         bathingSiteAddress, bathingSiteLatitude, bathingSiteLongitude,
                         bathingSiteGrade, bathingSiteWaterTmp, bathingSiteWaterTmpDate)
                 }
@@ -368,38 +370,55 @@ class AddBathingSiteFragment : Fragment() {
      * @param waterTmp the EditText for the water temperature of the bathing site.
      * @param date the EditText for the date of the water temperature of the bathing site.
      */
-    private fun createAlertDialog(name: EditText?, description: EditText?, address: EditText?,
+    private fun saveToSiteToDatabase(name: EditText?, description: EditText?, address: EditText?,
                                   latitude: EditText?, longitude: EditText?, grade: RatingBar?,
                                   waterTmp: EditText?, date: EditText?) {
+        val dataBase = context?.let { AppDataBase.getDatabase(it) }
+        val bathingSiteDao = dataBase?.BathingSiteDao()
+        val latitudeDouble: Double?
+        val longitudeDouble: Double?
 
-        val space = getString(R.string.space)
-        val newLine = getString(R.string.new_line)
-        val formInfo = getString(R.string.edit_text_bathing_site_name) + space +
-                name!!.text + newLine +
-                getString(R.string.edit_text_bathing_site_description) + space +
-                description!!.text + newLine +
-                getString(R.string.edit_text_bathing_site_address) + space +
-                address!!.text + newLine +
-                getString(R.string.edit_text_bathing_site_latitude) + space +
-                latitude!!.text + newLine +
-                getString(R.string.edit_text_bathing_site_longitude) + space +
-                longitude!!.text + newLine +
-                getString(R.string.edit_text_bathing_site_grade) + space +
-                grade!!.rating + newLine +
-                getString(R.string.edit_text_bathing_site_water_temperature) + space +
-                waterTmp!!.text + newLine +
-                getString(R.string.edit_text_bathing_site_water_temperature_date) + space +
-                date!!.text
+        if (latitude!!.text.isNotEmpty() && longitude!!.text.isNotEmpty()) {
+            latitudeDouble = latitude.text.toString().toDouble()
+            longitudeDouble = longitude.text.toString().toDouble()
 
+            if (bathingSiteDao != null) {
+                if (bathingSiteDao.exists(latitudeDouble, longitudeDouble)) {
+                    createSaveAlertDialog(false, getString(R.string.site_already_exists))
+
+                } else {
+                    val newBathingSite = BathingSite(name.toString(), description.toString(),
+                        address.toString(), latitudeDouble,
+                        longitudeDouble, grade.toString().toDouble(),
+                        waterTmp.toString().toDouble(), date.toString())
+
+                    bathingSiteDao.insertAll(newBathingSite)
+
+                    createSaveAlertDialog(true, getString(R.string.successful_save))
+                }
+            }
+        }
+    }
+
+    private fun createSaveAlertDialog(successful: Boolean, message: String) {
         val alertBuilder = context?.let { AlertDialog.Builder(it) }
         alertBuilder?.setTitle(getString(R.string.dialog_title))
-        alertBuilder?.setMessage(formInfo)
-        alertBuilder?.setPositiveButton(R.string.dialog_buttonText, null)
+        alertBuilder?.setMessage(message)
+
+        if (successful) {
+            alertBuilder?.setPositiveButton(R.string.dialog_buttonText) { _: DialogInterface?, _: Int ->
+                activity?.finish()
+            }
+        } else {
+            alertBuilder?.setPositiveButton(R.string.dialog_buttonText, null)
+        }
 
         val alertDialog: AlertDialog = alertBuilder!!.create()
         alertDialog.setCancelable(false)
         alertDialog.show()
     }
+
+
 
     companion object {
         const val WEATHER_INFO_KEY = "infoKey"

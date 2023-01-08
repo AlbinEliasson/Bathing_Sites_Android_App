@@ -12,4 +12,9 @@ class AddBathingSiteActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_bathing_site)
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        AppDataBase.getDatabase(this).destroy()
+    }
 }

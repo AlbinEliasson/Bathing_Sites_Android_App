@@ -45,7 +45,7 @@
     <string name="bathing_site_name_error">Name is required</string>
     <string name="bathing_site_location_error">Address or latitude/longitude is required</string>
     <!-- Save dialog -->
-    <string name="dialog_title">Saved bathing site:</string>
+    <string name="dialog_title">Saved:</string>
     <string name="dialog_buttonText">OK</string>
     <string name="title_activity_settings">SettingsActivity</string>
 
@@ -63,5 +63,7 @@
 
     <!-- Bathing site database -->
     <string name="name_of_the_database_file">bathing_site_database</string>
+    <string name="successful_save">The bathing site has been saved</string>
+    <string name="site_already_exists">The bathing site already exists</string>
 
 </resources>

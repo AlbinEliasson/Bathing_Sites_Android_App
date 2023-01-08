@@ -42,6 +42,16 @@ class BathingSitesView @JvmOverloads constructor(
         view.setOnClickListener {
             numberOfBathingSites += 1
             setupTitleView()
+            getBathingSites()
+        }
+    }
+
+    private fun getBathingSites() {
+        val dataBase = context?.let { AppDataBase.getDatabase(it) }
+        val bathingSiteDao = dataBase?.BathingSiteDao()
+
+        if (bathingSiteDao != null) {
+            println(bathingSiteDao.getAllBathingSites())
         }
     }
 }

@@ -25,4 +25,8 @@ abstract class AppDataBase : RoomDatabase() {
             return INSTANCE!!
         }
     }
+
+    fun destroy() {
+        INSTANCE = null
+    }
 }
