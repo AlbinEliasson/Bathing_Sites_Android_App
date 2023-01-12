@@ -1,7 +1,7 @@
 package se.miun.alel2104.dt031g.bathingsites
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 
 /**
  * Represents the activity for adding new bathing sites.

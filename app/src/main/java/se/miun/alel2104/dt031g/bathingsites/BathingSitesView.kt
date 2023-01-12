@@ -5,6 +5,10 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 
 class BathingSitesView @JvmOverloads constructor(
     context: Context,
@@ -15,6 +19,8 @@ class BathingSitesView @JvmOverloads constructor(
 
     private var view: View = View.inflate(context, R.layout.bathing_sites_view, this)
     private var numberOfBathingSites = 0
+    private val job = SupervisorJob()
+    private val applicationScope = CoroutineScope(Dispatchers.IO + job)
 
     init {
         initialize(attrs)
@@ -33,25 +39,33 @@ class BathingSitesView @JvmOverloads constructor(
     }
 
     private fun setupTitleView() {
-        val bathingSiteTitle = resources.getString(R.string.default_bathing_sites_title, numberOfBathingSites)
-        view.findViewById<TextView>(R.id.bathing_sites_title).text = bathingSiteTitle
+        applicationScope.launch {
+            val dataBase = context?.let { AppDataBase.getDatabase(it) }
+            val bathingSiteDao = dataBase?.BathingSiteDao()
 
+            if (bathingSiteDao != null) {
+                numberOfBathingSites = bathingSiteDao.getNumberOfBathingSites()
+                val bathingSiteTitle = resources.getString(R.string.default_bathing_sites_title, numberOfBathingSites)
+                view.findViewById<TextView>(R.id.bathing_sites_title).text = bathingSiteTitle
+            }
+        }
     }
 
     private fun initBathingButtonListener() {
         view.setOnClickListener {
-            numberOfBathingSites += 1
             setupTitleView()
             getBathingSites()
         }
     }
 
     private fun getBathingSites() {
-        val dataBase = context?.let { AppDataBase.getDatabase(it) }
-        val bathingSiteDao = dataBase?.BathingSiteDao()
+        applicationScope.launch {
+            val dataBase = context?.let { AppDataBase.getDatabase(it) }
+            val bathingSiteDao = dataBase?.BathingSiteDao()
 
-        if (bathingSiteDao != null) {
-            println(bathingSiteDao.getAllBathingSites())
+            if (bathingSiteDao != null) {
+                println(bathingSiteDao.getAllBathingSites())
+            }
         }
     }
 }

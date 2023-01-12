@@ -44,6 +44,7 @@ class AddBathingSiteFragment : Fragment() {
     private val applicationScope = CoroutineScope(Dispatchers.IO + job)
     private var weatherInfoToDisplay = ""
     private var progressBar: ProgressBar? = null
+    private var alertDialog: AlertDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -110,27 +111,22 @@ class AddBathingSiteFragment : Fragment() {
                         resetErrorMessages(listOf(bathingSiteAddress, bathingSiteLatitude,
                             bathingSiteLongitude))
 
-                        saveToSiteToDatabase(bathingSiteName, bathingSiteDescription,
+                        saveSiteToDatabase(bathingSiteName, bathingSiteDescription,
                             bathingSiteAddress, bathingSiteLatitude, bathingSiteLongitude,
                             bathingSiteGrade, bathingSiteWaterTmp, bathingSiteWaterTmpDate)
                     }
 
                 } else {
-                    saveToSiteToDatabase(bathingSiteName, bathingSiteDescription,
+                    saveSiteToDatabase(bathingSiteName, bathingSiteDescription,
                         bathingSiteAddress, bathingSiteLatitude, bathingSiteLongitude,
                         bathingSiteGrade, bathingSiteWaterTmp, bathingSiteWaterTmpDate)
                 }
             }
 
             R.id.add_bathing_site_clear_button -> {
-                // Reset the rating bar
-                if (bathingSiteGrade!!.rating != 0.0F) {
-                    bathingSiteGrade.rating = 0.0F
-                }
-
                 clearFormInputs(listOf(bathingSiteName, bathingSiteDescription,
                     bathingSiteAddress, bathingSiteLatitude, bathingSiteLongitude,
-                    bathingSiteWaterTmp))
+                    bathingSiteWaterTmp), bathingSiteGrade)
             }
 
             R.id.add_bathing_site_weather_option -> {
@@ -328,12 +324,17 @@ class AddBathingSiteFragment : Fragment() {
     * Loops the edit text inputs and clears the input if they contain information.
     * @param formList the list of EditText.
     */
-    private fun clearFormInputs(formList: List<EditText?>) {
+    private fun clearFormInputs(formList: List<EditText?>, grade: RatingBar?) {
         formList.forEach {
             if (it!!.length() != 0) {
                 it.text.clear()
             }
         }
+        // Reset the rating bar
+        if (grade!!.rating != 0.0F) {
+            grade.rating = 0.0F
+        }
+
         // Reset the water temp date to current date
         initCurrentDateInForm()
     }
@@ -360,7 +361,7 @@ class AddBathingSiteFragment : Fragment() {
     }
 
     /**
-     * Creates an alert dialog displaying the information entered from the add bathing site inputs.
+     *
      * @param name the EditText for the name of the bathing site.
      * @param description the EditText for the description of the bathing site.
      * @param address the EditText for the address of the bathing site.
@@ -370,55 +371,87 @@ class AddBathingSiteFragment : Fragment() {
      * @param waterTmp the EditText for the water temperature of the bathing site.
      * @param date the EditText for the date of the water temperature of the bathing site.
      */
-    private fun saveToSiteToDatabase(name: EditText?, description: EditText?, address: EditText?,
+    private fun saveSiteToDatabase(name: EditText?, description: EditText?, address: EditText?,
                                   latitude: EditText?, longitude: EditText?, grade: RatingBar?,
                                   waterTmp: EditText?, date: EditText?) {
-        val dataBase = context?.let { AppDataBase.getDatabase(it) }
-        val bathingSiteDao = dataBase?.BathingSiteDao()
-        val latitudeDouble: Double?
-        val longitudeDouble: Double?
-
-        if (latitude!!.text.isNotEmpty() && longitude!!.text.isNotEmpty()) {
-            latitudeDouble = latitude.text.toString().toDouble()
-            longitudeDouble = longitude.text.toString().toDouble()
+        applicationScope.launch {
+            val dataBase = context?.let { AppDataBase.getDatabase(it) }
+            val bathingSiteDao = dataBase?.BathingSiteDao()
+            val latitudeDouble: Double?
+            val longitudeDouble: Double?
 
             if (bathingSiteDao != null) {
-                if (bathingSiteDao.exists(latitudeDouble, longitudeDouble)) {
-                    createSaveAlertDialog(false, getString(R.string.site_already_exists))
+
+                if (latitude!!.text.isNotEmpty() && longitude!!.text.isNotEmpty()) {
+                    latitudeDouble = latitude.text.toString().toDouble()
+                    longitudeDouble = longitude.text.toString().toDouble()
+
+                    if (bathingSiteDao.exists(latitudeDouble, longitudeDouble)) {
+                        createSaveAlertDialog(false, getString(R.string.site_already_exists),
+                            listOf(name, description, address, latitude, longitude, waterTmp), grade)
+
+                    } else {
+                        val newBathingSite = BathingSite(
+                            name.toString(), description.toString(),
+                            address.toString(), latitudeDouble,
+                            longitudeDouble, grade?.rating,
+                            waterTmp.toString().toDoubleOrNull(), date.toString()
+                        )
+
+                        bathingSiteDao.insertAll(newBathingSite)
+
+                        clearFormInputs(listOf(
+                            name, description, address, latitude, longitude, waterTmp), grade)
+
+                        createSaveAlertDialog(true, getString(R.string.successful_save),
+                            listOf(name, description, address, latitude, longitude, waterTmp), grade)
+
+                    }
 
                 } else {
-                    val newBathingSite = BathingSite(name.toString(), description.toString(),
-                        address.toString(), latitudeDouble,
-                        longitudeDouble, grade.toString().toDouble(),
-                        waterTmp.toString().toDouble(), date.toString())
+                    val newBathingSite = BathingSite(
+                        name?.text.toString(), description?.text.toString(),
+                        address?.text.toString(), latitude.text.toString().toDoubleOrNull(),
+                        longitude?.text.toString().toDoubleOrNull(), grade?.rating,
+                        waterTmp?.text.toString().toDoubleOrNull(), date?.text.toString()
+                    )
 
                     bathingSiteDao.insertAll(newBathingSite)
 
-                    createSaveAlertDialog(true, getString(R.string.successful_save))
+                    clearFormInputs(listOf(
+                        name, description, address, latitude, longitude, waterTmp), grade)
+
+                    createSaveAlertDialog(true, getString(R.string.successful_save),
+                        listOf(name, description, address, latitude, longitude, waterTmp), grade)
                 }
             }
         }
     }
 
-    private fun createSaveAlertDialog(successful: Boolean, message: String) {
-        val alertBuilder = context?.let { AlertDialog.Builder(it) }
-        alertBuilder?.setTitle(getString(R.string.dialog_title))
-        alertBuilder?.setMessage(message)
+    private fun createSaveAlertDialog(successful: Boolean, message: String,
+                                      formList: List<EditText?>, grade: RatingBar?) {
+        val alertBuilder = AlertDialog.Builder(requireContext())
+        alertBuilder.setTitle(getString(R.string.dialog_title))
+        alertBuilder.setMessage(message)
 
         if (successful) {
-            alertBuilder?.setPositiveButton(R.string.dialog_buttonText) { _: DialogInterface?, _: Int ->
+            alertBuilder.setPositiveButton(R.string.dialog_buttonText) { _: DialogInterface?, _: Int ->
+                clearFormInputs(formList, grade)
+                if (alertDialog != null) {
+                    alertDialog!!.dismiss()
+                }
                 activity?.finish()
             }
         } else {
-            alertBuilder?.setPositiveButton(R.string.dialog_buttonText, null)
+            alertBuilder.setPositiveButton(R.string.dialog_buttonText, null)
         }
 
-        val alertDialog: AlertDialog = alertBuilder!!.create()
-        alertDialog.setCancelable(false)
-        alertDialog.show()
+        requireActivity().runOnUiThread {
+            alertDialog = alertBuilder.create()
+            alertDialog!!.setCancelable(false)
+            alertDialog!!.show()
+        }
     }
-
-
 
     companion object {
         const val WEATHER_INFO_KEY = "infoKey"

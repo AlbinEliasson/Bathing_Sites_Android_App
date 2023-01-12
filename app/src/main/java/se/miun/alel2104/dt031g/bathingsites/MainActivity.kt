@@ -29,6 +29,10 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onResume() {
+        super.onResume()
+    }
+
     private fun initAddBathingSiteButtonListener() {
         val addBathingSiteButton: View = findViewById(R.id.add_bathing_site_button)
         addBathingSiteButton.setOnClickListener {
