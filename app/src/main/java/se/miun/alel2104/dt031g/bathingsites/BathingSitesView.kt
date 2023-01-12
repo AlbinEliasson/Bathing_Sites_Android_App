@@ -33,8 +33,6 @@ class BathingSitesView @JvmOverloads constructor(
     private fun initialize(attrs: AttributeSet?) {
         val typedArray = context.obtainStyledAttributes(attrs,
             R.styleable.BathingSitesView, 0, 0)
-        val bathingSitesTitle = typedArray.getString(
-            R.styleable.BathingSitesView_bathing_sites_title).toString()
 
         typedArray.recycle()
 
@@ -75,6 +73,7 @@ class BathingSitesView @JvmOverloads constructor(
         }
         val intent = Intent(context, ViewAllBathingSitesActivity::class.java)
         startActivity(context, intent, null)
+        releaseDatabase()
     }
 
     fun releaseDatabase() {

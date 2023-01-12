@@ -173,7 +173,7 @@
             android:autofillHints="temperature"
             android:ems="10"
             android:hint="@string/edit_text_bathing_site_water_temperature_hint"
-            android:inputType="numberDecimal"
+            android:inputType="numberDecimal|numberSigned"
             android:minHeight="48dp"
             android:textColorHint="#757575"
             app:layout_constraintBottom_toTopOf="@+id/guideline12"

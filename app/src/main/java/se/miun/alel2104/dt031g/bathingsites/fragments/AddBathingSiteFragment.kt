@@ -397,20 +397,16 @@ class AddBathingSiteFragment : Fragment() {
 
                     } else {
                         val newBathingSite = BathingSite(
-                            name.toString(), description.toString(),
-                            address.toString(), latitudeDouble,
+                            name?.text.toString(), description?.text.toString(),
+                            address?.text.toString(), latitudeDouble,
                             longitudeDouble, grade?.rating,
-                            waterTmp.toString().toDoubleOrNull(), date.toString()
+                            waterTmp?.text.toString().toDoubleOrNull(), date?.text.toString()
                         )
 
                         bathingSiteDao.insertAll(newBathingSite)
 
-                        clearFormInputs(listOf(
-                            name, description, address, latitude, longitude, waterTmp), grade)
-
                         createSaveAlertDialog(true, getString(R.string.successful_save),
                             listOf(name, description, address, latitude, longitude, waterTmp), grade)
-
                     }
 
                 } else {
@@ -422,9 +418,6 @@ class AddBathingSiteFragment : Fragment() {
                     )
 
                     bathingSiteDao.insertAll(newBathingSite)
-
-                    clearFormInputs(listOf(
-                        name, description, address, latitude, longitude, waterTmp), grade)
 
                     createSaveAlertDialog(true, getString(R.string.successful_save),
                         listOf(name, description, address, latitude, longitude, waterTmp), grade)
@@ -442,6 +435,7 @@ class AddBathingSiteFragment : Fragment() {
         if (successful) {
             alertBuilder.setPositiveButton(R.string.dialog_buttonText) { _: DialogInterface?, _: Int ->
                 clearFormInputs(formList, grade)
+
                 if (alertDialog != null) {
                     alertDialog!!.dismiss()
                 }

@@ -2,6 +2,7 @@ package se.miun.alel2104.dt031g.bathingsites
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -29,6 +30,14 @@ class ViewAllBathingSitesActivity : AppCompatActivity() {
         if (bathingSiteList != null) {
             setAdapter(bathingSiteList)
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            finish()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun setAdapter(bathingSiteList: ArrayList<BathingSite>) {
