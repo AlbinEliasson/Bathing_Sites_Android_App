@@ -12,9 +12,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import se.miun.alel2104.dt031g.bathingsites.bathingSiteEntity.BathingSite
 
+/**
+ * The activity which shows all the saved bathing-sites using a RecyclerView.
+ * @author Albin Eliasson
+ */
 class ViewAllBathingSitesActivity : AppCompatActivity() {
     private var recyclerView: RecyclerView? = null
 
+    /**
+     * Overridden function to set content view, initialize the bathing-site ArrayList and
+     * execute the setAdapter function.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_view_all_bathing_sites)
@@ -32,6 +40,10 @@ class ViewAllBathingSitesActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Overridden function to make sure the "back navigation button" takes the user back
+     * to the previous activity.
+     */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
             finish()
@@ -40,6 +52,10 @@ class ViewAllBathingSitesActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    /**
+     * Function to initialize the recycler adapter and the RecyclerView.
+     * @param bathingSiteList the Arraylist containing the bathing-sites.
+     */
     private fun setAdapter(bathingSiteList: ArrayList<BathingSite>) {
         val adapter = BathingSiteRecyclerAdapter(bathingSiteList)
         val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(applicationContext)
@@ -49,12 +65,18 @@ class ViewAllBathingSitesActivity : AppCompatActivity() {
         recyclerView?.adapter = adapter
     }
 
-    //https://stackoverflow.com/questions/43012903/trying-to-create-a-simple-recyclerview-in-kotlin-but-the-adapter-is-not-applyin
+    /**
+     * The recycler adapter which initializes the RecyclerView with the bathing-sites.
+     * https://stackoverflow.com/questions/43012903/trying-to-create-a-simple-recyclerview-in-kotlin-but-the-adapter-is-not-applyin
+     */
     internal class BathingSiteRecyclerAdapter(
         private val bathingSiteList: ArrayList<BathingSite>
     ) : RecyclerView.Adapter<BathingSiteRecyclerAdapter.ViewHolder>() {
 
-
+        /**
+         * Overridden function to initialize the ViewHolder with the textview holding the
+         * bathing-sites.
+         */
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
                 BathingSiteRecyclerAdapter.ViewHolder {
 
@@ -63,6 +85,10 @@ class ViewAllBathingSitesActivity : AppCompatActivity() {
             return ViewHolder(itemView)
         }
 
+        /**
+         * Overridden function to update the RecyclerView with the textview and set the
+         * bathing-site information accordingly.
+         */
         override fun onBindViewHolder(holder: BathingSiteRecyclerAdapter.ViewHolder, position: Int) {
             val name = holder.itemView.context.getString(R.string.edit_text_bathing_site_name)
             val description = holder.itemView.context.getString(
@@ -98,10 +124,16 @@ class ViewAllBathingSitesActivity : AppCompatActivity() {
             }
         }
 
+        /**
+         * Overridden function to get the amount of bathing-sites in the ArrayList.
+         */
         override fun getItemCount(): Int {
             return bathingSiteList.size
         }
 
+        /**
+         * The ViewHolder which initializes the textview to be containing the bathing-sites.
+         */
         internal inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             var bathingSiteName: TextView? = null
 

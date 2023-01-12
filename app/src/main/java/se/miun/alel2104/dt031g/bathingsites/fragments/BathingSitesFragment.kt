@@ -16,6 +16,7 @@ private const val ARG_PARAM2 = "param2"
  * A simple [Fragment] subclass.
  * Use the [BathingSitesFragment.newInstance] factory method to
  * create an instance of this fragment.
+ * @author Albin Eliasson
  */
 class BathingSitesFragment : Fragment() {
     private var param1: String? = null
@@ -29,6 +30,9 @@ class BathingSitesFragment : Fragment() {
         }
     }
 
+    /**
+     * Overridden function to inflate the fragment layout.
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -37,10 +41,16 @@ class BathingSitesFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_bathing_sites, container, false)
     }
 
+    /**
+     * Method to initialize and show the current number of saved bathing-sites.
+     */
     fun initNumberOfBathingSites() {
         view?.findViewById<BathingSitesView>(R.id.customBathingSiteView)?.setupTitleView()
     }
 
+    /**
+     * Method to release the database.
+     */
     fun releaseDatabase() {
         view?.findViewById<BathingSitesView>(R.id.customBathingSiteView)?.releaseDatabase()
     }

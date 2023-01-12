@@ -3,6 +3,10 @@ package se.miun.alel2104.dt031g.bathingsites.bathingSiteEntity
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+/**
+ * The data class containing the bathing-site database structure.
+ * @author Albin Eliasson
+ */
 @Entity(tableName = "bathingsite")
 data class BathingSite (
     var name: String?,

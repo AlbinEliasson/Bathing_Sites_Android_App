@@ -8,10 +8,16 @@ import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import se.miun.alel2104.dt031g.bathingsites.R
 
-
+/**
+ * The DialogFragment which displays the weather information.
+ * https://developer.android.com/guide/fragments/dialogs
+ * @author Albin Eliasson
+ */
 class ShowWeatherDialogFragment : DialogFragment() {
 
-    // https://developer.android.com/guide/fragments/dialogs
+    /**
+     * Overridden function to create the alert dialog with the given information.
+     */
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val weatherData = requireArguments().getString(AddBathingSiteFragment.WEATHER_INFO_KEY)
         val weatherIconBitmap: Bitmap? =
@@ -24,9 +30,5 @@ class ShowWeatherDialogFragment : DialogFragment() {
             .setMessage(weatherData)
             .setPositiveButton(getString(R.string.dialog_buttonText)) { _, _ -> }
             .create()
-    }
-
-    companion object {
-        const val TAG = "ShowWeatherDialog"
     }
 }

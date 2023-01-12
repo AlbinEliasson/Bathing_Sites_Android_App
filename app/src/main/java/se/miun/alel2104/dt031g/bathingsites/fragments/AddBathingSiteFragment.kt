@@ -37,6 +37,7 @@ private const val ARG_PARAM2 = "param2"
  * A simple [Fragment] subclass.
  * Use the [AddBathingSiteFragment.newInstance] factory method to
  * create an instance of this fragment.
+ * @author Albin Eliasson
  */
 class AddBathingSiteFragment : Fragment() {
     private var param1: String? = null
@@ -58,6 +59,9 @@ class AddBathingSiteFragment : Fragment() {
         }
     }
 
+    /**
+     * Overridden function to inflate the fragment layout.
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -67,7 +71,8 @@ class AddBathingSiteFragment : Fragment() {
     }
 
     /**
-     * Initializes the logic after onCreate.
+     * Overridden function to initialize the current date to the water temperature date editText and
+     * the progressbar used when fetching weather data after onCreate.
      */
     override fun onStart() {
         super.onStart()
@@ -145,6 +150,9 @@ class AddBathingSiteFragment : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
+    /**
+     * Function to initialize the weather dialog fragment with the weather information.
+     */
     private fun showFragmentDialog() {
         val weatherDialogFragment: DialogFragment = ShowWeatherDialogFragment()
         val args = Bundle()
@@ -155,6 +163,13 @@ class AddBathingSiteFragment : Fragment() {
         weatherDialogFragment.show(childFragmentManager, weatherDialogFragment.tag)
     }
 
+    /**
+     * Function to create the full weather link utilizing the link from settings and
+     * address/longitude/latitude.
+     * @param address the address users have input.
+     * @param latitude the latitude the users have input.
+     * @param longitude the longitude the users have input.
+     */
     private fun createWeatherLink(
         address: EditText?, latitude: EditText?, longitude: EditText?): String {
         var finalWeatherLink = ""
@@ -198,6 +213,9 @@ class AddBathingSiteFragment : Fragment() {
         return finalWeatherLink
     }
 
+    /**
+     * Function to remove/replace unwanted characters from the address.
+     */
     private fun removeReplaceRegex(link: String): String {
         var finalLink = link
         val regexCapitalizeA = Regex("[ÁÀÂÃÄÅ]")
@@ -215,7 +233,11 @@ class AddBathingSiteFragment : Fragment() {
         return finalLink
     }
 
-    //https://stackoverflow.com/questions/62260002/send-get-request-in-kotlin-android
+    /**
+     * Function to access the weather info from the provided link.
+     * https://stackoverflow.com/questions/62260002/send-get-request-in-kotlin-android
+     * @param weatherLink the weather link.
+     */
     private fun getWeatherInfo(weatherLink: String) {
         var allWeatherInfo = ""
         if (weatherLink.isEmpty()) {
@@ -266,7 +288,11 @@ class AddBathingSiteFragment : Fragment() {
         }
     }
 
-    //https://www.tabnine.com/code/java/methods/android.graphics.drawable.Drawable/createFromStream
+    /**
+     * Function to access the image from the weather image url.
+     * https://www.tabnine.com/code/java/methods/android.graphics.drawable.Drawable/createFromStream
+     * @param imageUrl the url to the image.
+     */
     private fun getDrawable(imageUrl: String): Bitmap? {
         return try {
             val url = URL(imageUrl)
@@ -279,6 +305,10 @@ class AddBathingSiteFragment : Fragment() {
         }
     }
 
+    /**
+     * Function to parse the information fetched from the weather link.
+     * @param weatherData the json object containing the weather information.
+     */
     private fun parseWeatherInfo(weatherData: JSONObject) {
         var currentWeatherDesc = ""
         var weatherIcon = ""
@@ -313,6 +343,10 @@ class AddBathingSiteFragment : Fragment() {
         }
     }
 
+    /**
+     * Function to show the progressbar while fetching weather data.
+     * @param show true if progressbar is to be shown.
+     */
     private fun showDownloadProgressBar(show: Boolean) {
         requireActivity().runOnUiThread {
             if (show) {
@@ -364,7 +398,7 @@ class AddBathingSiteFragment : Fragment() {
     }
 
     /**
-     *
+     * Function to save the bathing-site to the database.
      * @param name the EditText for the name of the bathing site.
      * @param description the EditText for the description of the bathing site.
      * @param address the EditText for the address of the bathing site.
@@ -428,6 +462,10 @@ class AddBathingSiteFragment : Fragment() {
         }
     }
 
+    /**
+     * Function to display the save bathing-site to database success alertDialog. If successful
+     * save the activity is to be finished.
+     */
     private fun createSaveAlertDialog(successful: Boolean, message: String) {
         val alertBuilder = AlertDialog.Builder(requireContext())
         alertBuilder.setTitle(getString(R.string.dialog_title))

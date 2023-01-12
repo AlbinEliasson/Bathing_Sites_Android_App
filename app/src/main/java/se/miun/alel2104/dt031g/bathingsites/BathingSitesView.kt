@@ -13,6 +13,11 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import se.miun.alel2104.dt031g.bathingsites.bathingSiteEntity.BathingSite
 
+/**
+ * The custom bathing-site view which displays the amount of saved bathing-sites and starts
+ * the ViewAllBathingSitesActivity to view information on all bathing-sites when pressed.
+ * @author Albin Eliasson
+ */
 class BathingSitesView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
@@ -30,6 +35,10 @@ class BathingSitesView @JvmOverloads constructor(
         initBathingButtonListener()
     }
 
+    /**
+     * Function to initialize the styledAttributes and execute the function to show the amount
+     * of saved bathing-sites.
+     */
     private fun initialize(attrs: AttributeSet?) {
         val typedArray = context.obtainStyledAttributes(attrs,
             R.styleable.BathingSitesView, 0, 0)
@@ -39,6 +48,10 @@ class BathingSitesView @JvmOverloads constructor(
         setupTitleView()
     }
 
+    /**
+     * Function to access the database from the AppDataBase singleton and initialize the
+     * textview displaying the amount of saved bathing-sites.
+     */
     fun setupTitleView() {
         applicationScope.launch {
             val dataBase = context?.let { AppDataBase.getDatabase(it) }
@@ -52,12 +65,19 @@ class BathingSitesView @JvmOverloads constructor(
         }
     }
 
+    /**
+     * Function to initialize the view click listener.
+     */
     private fun initBathingButtonListener() {
         view.setOnClickListener {
             getBathingSites()
         }
     }
 
+    /**
+     * Function to access the database from the AppDataBase singleton, grab the stored
+     * bathing-sites and start the ViewAllBathingSitesActivity activity.
+     */
     private fun getBathingSites() {
         applicationScope.launch {
             val dataBase = context?.let { AppDataBase.getDatabase(it) }
@@ -74,10 +94,16 @@ class BathingSitesView @JvmOverloads constructor(
         releaseDatabase()
     }
 
+    /**
+     * Function to release the database from the the AppDataBase singleton.
+     */
     fun releaseDatabase() {
         AppDataBase.getDatabase(context).destroy()
     }
 
+    /**
+     * Containing the list of bathing-sites.
+     */
     companion object {
         var bathingSiteArray: List<BathingSite>? = null
     }
