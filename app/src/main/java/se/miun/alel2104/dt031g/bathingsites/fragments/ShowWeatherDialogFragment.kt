@@ -1,4 +1,4 @@
-package se.miun.alel2104.dt031g.bathingsites
+package se.miun.alel2104.dt031g.bathingsites.fragments
 
 import android.app.AlertDialog
 import android.app.Dialog
@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
+import se.miun.alel2104.dt031g.bathingsites.R
 
 
 class ShowWeatherDialogFragment : DialogFragment() {

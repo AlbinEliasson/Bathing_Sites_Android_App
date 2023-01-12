@@ -8,7 +8,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_bathing_site"
-        android:name="se.miun.alel2104.dt031g.bathingsites.BathingSitesFragment"
+        android:name="se.miun.alel2104.dt031g.bathingsites.fragments.BathingSitesFragment"
         android:layout_width="0dp"
         android:layout_height="173dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -20,7 +20,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_add_bathing_site"
-        android:name="se.miun.alel2104.dt031g.bathingsites.AddBathingSiteFragment"
+        android:name="se.miun.alel2104.dt031g.bathingsites.fragments.AddBathingSiteFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -1,4 +1,4 @@
-package se.miun.alel2104.dt031g.bathingsites
+package se.miun.alel2104.dt031g.bathingsites.fragments
 
 import android.content.DialogInterface
 import android.content.Intent
@@ -18,6 +18,9 @@ import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import kotlinx.coroutines.*
 import org.json.JSONObject
+import se.miun.alel2104.dt031g.bathingsites.AppDataBase
+import se.miun.alel2104.dt031g.bathingsites.R
+import se.miun.alel2104.dt031g.bathingsites.SettingsActivity
 import se.miun.alel2104.dt031g.bathingsites.bathingSiteEntity.BathingSite
 import java.io.BufferedReader
 import java.io.IOException
@@ -162,7 +165,8 @@ class AddBathingSiteFragment : Fragment() {
             context)
         val settingWeatherLink = preferences.getString(
             SettingsActivity.SettingsFragment.WEATHER_LINK_KEY, getString(
-                R.string.store_weather_link))
+                R.string.store_weather_link
+            ))
 
         if (latitude!!.text.isNotEmpty() && longitude!!.text.isNotEmpty()) {
             finalWeatherLink = settingWeatherLink + weatherLinkLatitudeExtra +
@@ -287,7 +291,8 @@ class AddBathingSiteFragment : Fragment() {
             requireActivity().runOnUiThread {
                 Toast.makeText(
                     context, getString(
-                    R.string.cant_show_weather),
+                        R.string.cant_show_weather
+                    ),
                     Toast.LENGTH_LONG).show()
             }
 

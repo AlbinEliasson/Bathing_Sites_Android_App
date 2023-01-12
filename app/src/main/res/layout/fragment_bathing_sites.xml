@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".BathingSitesFragment">
+    tools:context=".fragments.BathingSitesFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
                 <se.miun.alel2104.dt031g.bathingsites.BathingSitesView
+                    android:id="@+id/customBathingSiteView"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_gravity="center"

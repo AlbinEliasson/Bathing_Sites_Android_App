@@ -1,14 +1,17 @@
 package se.miun.alel2104.dt031g.bathingsites
 
 import android.content.Context
+import android.content.Intent
 import android.util.AttributeSet
 import android.view.View
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat.startActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import se.miun.alel2104.dt031g.bathingsites.bathingSiteEntity.BathingSite
 
 class BathingSitesView @JvmOverloads constructor(
     context: Context,
@@ -38,7 +41,7 @@ class BathingSitesView @JvmOverloads constructor(
         setupTitleView()
     }
 
-    private fun setupTitleView() {
+    fun setupTitleView() {
         applicationScope.launch {
             val dataBase = context?.let { AppDataBase.getDatabase(it) }
             val bathingSiteDao = dataBase?.BathingSiteDao()
@@ -53,7 +56,6 @@ class BathingSitesView @JvmOverloads constructor(
 
     private fun initBathingButtonListener() {
         view.setOnClickListener {
-            setupTitleView()
             getBathingSites()
         }
     }
@@ -65,7 +67,21 @@ class BathingSitesView @JvmOverloads constructor(
 
             if (bathingSiteDao != null) {
                 println(bathingSiteDao.getAllBathingSites())
+                val bathingSiteArrayList = bathingSiteDao.getAllBathingSites()
+
+                bathingSiteArray = bathingSiteArrayList
+
             }
         }
+        val intent = Intent(context, ViewAllBathingSitesActivity::class.java)
+        startActivity(context, intent, null)
+    }
+
+    fun releaseDatabase() {
+        AppDataBase.getDatabase(context).destroy()
+    }
+
+    companion object {
+        var bathingSiteArray: List<BathingSite>? = null
     }
 }
