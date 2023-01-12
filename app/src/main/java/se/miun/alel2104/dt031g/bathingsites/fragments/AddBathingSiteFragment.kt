@@ -195,8 +195,6 @@ class AddBathingSiteFragment : Fragment() {
         } else {
             finalWeatherLink = ""
         }
-
-        println(finalWeatherLink)
         return finalWeatherLink
     }
 
@@ -392,8 +390,8 @@ class AddBathingSiteFragment : Fragment() {
                     longitudeDouble = longitude.text.toString().toDouble()
 
                     if (bathingSiteDao.exists(latitudeDouble, longitudeDouble)) {
-                        createSaveAlertDialog(false, getString(R.string.site_already_exists),
-                            listOf(name, description, address, latitude, longitude, waterTmp), grade)
+                        createSaveAlertDialog(false, getString(
+                            R.string.site_already_exists))
 
                     } else {
                         val newBathingSite = BathingSite(
@@ -405,8 +403,10 @@ class AddBathingSiteFragment : Fragment() {
 
                         bathingSiteDao.insertAll(newBathingSite)
 
-                        createSaveAlertDialog(true, getString(R.string.successful_save),
-                            listOf(name, description, address, latitude, longitude, waterTmp), grade)
+                        clearFormInputs(listOf(
+                            name, description, address, latitude, longitude, waterTmp), grade)
+
+                        createSaveAlertDialog(true, getString(R.string.successful_save))
                     }
 
                 } else {
@@ -419,23 +419,22 @@ class AddBathingSiteFragment : Fragment() {
 
                     bathingSiteDao.insertAll(newBathingSite)
 
-                    createSaveAlertDialog(true, getString(R.string.successful_save),
-                        listOf(name, description, address, latitude, longitude, waterTmp), grade)
+                    clearFormInputs(listOf(
+                        name, description, address, latitude, longitude, waterTmp), grade)
+
+                    createSaveAlertDialog(true, getString(R.string.successful_save))
                 }
             }
         }
     }
 
-    private fun createSaveAlertDialog(successful: Boolean, message: String,
-                                      formList: List<EditText?>, grade: RatingBar?) {
+    private fun createSaveAlertDialog(successful: Boolean, message: String) {
         val alertBuilder = AlertDialog.Builder(requireContext())
         alertBuilder.setTitle(getString(R.string.dialog_title))
         alertBuilder.setMessage(message)
 
         if (successful) {
             alertBuilder.setPositiveButton(R.string.dialog_buttonText) { _: DialogInterface?, _: Int ->
-                clearFormInputs(formList, grade)
-
                 if (alertDialog != null) {
                     alertDialog!!.dismiss()
                 }

@@ -64,11 +64,9 @@ class BathingSitesView @JvmOverloads constructor(
             val bathingSiteDao = dataBase?.BathingSiteDao()
 
             if (bathingSiteDao != null) {
-                println(bathingSiteDao.getAllBathingSites())
                 val bathingSiteArrayList = bathingSiteDao.getAllBathingSites()
 
                 bathingSiteArray = bathingSiteArrayList
-
             }
         }
         val intent = Intent(context, ViewAllBathingSitesActivity::class.java)
