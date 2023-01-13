@@ -199,9 +199,13 @@ class AddBathingSiteFragment : Fragment() {
                 }
 
             } else if (addressSplit.size == 2) {
-                finalWeatherLink = if (removeReplaceRegex(addressSplit[1]).isNotEmpty()) {
+                finalWeatherLink = if (addressSplit[1].isNotEmpty()) {
                     settingWeatherLink + weatherLinkAddressExtra +
                             removeReplaceRegex(addressSplit[1])
+
+                } else if (addressSplit[0].isNotEmpty()){
+                    settingWeatherLink + weatherLinkAddressExtra +
+                            removeReplaceRegex(addressSplit[0])
                 } else {
                     ""
                 }
