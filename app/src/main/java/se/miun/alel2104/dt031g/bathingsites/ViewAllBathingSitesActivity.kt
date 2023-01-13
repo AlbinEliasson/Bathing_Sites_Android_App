@@ -92,7 +92,7 @@ class ViewAllBathingSitesActivity : AppCompatActivity() {
         override fun onBindViewHolder(holder: BathingSiteRecyclerAdapter.ViewHolder, position: Int) {
             val name = holder.itemView.context.getString(R.string.edit_text_bathing_site_name)
             val description = holder.itemView.context.getString(
-                R.string.edit_text_bathing_site_address)
+                R.string.edit_text_bathing_site_description)
             val address = holder.itemView.context.getString(R.string.edit_text_bathing_site_address)
             val latitude = holder.itemView.context.getString(
                 R.string.edit_text_bathing_site_latitude)
